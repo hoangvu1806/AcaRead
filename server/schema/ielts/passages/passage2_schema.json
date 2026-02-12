@@ -1,0 +1,19 @@
+{
+  "type": "object",
+  "description": "IELTS Passage 2 Schema (Standard)",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Title reflecting a specific problem or discussion."
+    },
+    "content": {
+      "type": "string",
+      "description": "Text focused on workplace issues, technology, or sociology. More complex structure than Passage 1. Length: ~700-1000 words."
+    },
+    "topic": {
+      "type": "string",
+      "description": "Topic: Sociology, Welfare, Tech, Biology (Problem/Solution)."
+    }
+  },
+  "required": ["title", "content", "topic"]
+}

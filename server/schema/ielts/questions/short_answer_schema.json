@@ -1,0 +1,48 @@
+{
+  "type": "object",
+  "description": "IELTS Short Answer Questions (Type 9)",
+  "properties": {
+    "task_type": {
+      "type": "string",
+      "const": "Short Answer Questions",
+      "description": "Identifies the question type."
+    },
+    "instruction": {
+      "type": "string",
+      "description": "Standard instruction.",
+      "default": "Answer the questions below. Choose NO MORE THAN THREE WORDS from the passage for each answer."
+    },
+    "word_limit": {
+      "type": "integer",
+      "description": "Maximum number of words allowed.",
+      "default": 3
+    },
+    "questions": {
+      "type": "array",
+      "description": "List of direct questions.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "question_number": {
+            "type": "integer",
+            "description": "Sequential number of the question."
+          },
+          "question_text": {
+            "type": "string",
+            "description": "The question asking for specific information."
+          },
+          "correct_answer": {
+            "type": "string",
+            "description": "The exact words from the text."
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Location and context in text."
+          }
+        },
+        "required": ["question_number", "question_text", "correct_answer", "explanation"]
+      }
+    }
+  },
+  "required": ["task_type", "instruction", "questions"]
+}

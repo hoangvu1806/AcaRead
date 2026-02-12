@@ -1,124 +1,88 @@
-# IELTS Exam Generator - Frontend
+# AcaRead Frontend
+
+The modern, responsive web interface for AcaRead, built using Next.js 15+ and React 19. It provides an intuitive, distraction-free environment for users to upload documents, configure exams, and view detailed performance analytics.
 
 ## Overview
 
-This is the frontend application for the IELTS Exam Generator project, built with [Next.js](https://nextjs.org) and [Tailwind CSS](https://tailwindcss.com/). The frontend provides a user-friendly interface for uploading PDFs, configuring exam parameters, and taking the generated reading comprehension exams.
+Unlike traditional reading practice tools, AcaRead offers a real-time exam simulation that closely mimics official testing conditions. The frontend orchestrates the complex workflow of document processing, exam configuration, and interactive feedback using a seamless client-side experience.
 
-## Triển khai
+## Key Features
 
-Frontend được triển khai trong Docker container và có thể truy cập tại domain `scihorizone.hoangvu.id.vn`. Ứng dụng gọi API đến backend được triển khai tại `apisci.hoangvu.id.vn` thông qua cơ chế proxy của Next.js.
+- **Interactive Exam Creation**: Drag-and-drop PDF upload with intelligent parsing and configuration options.
+- **Real-Time Simulation**: Dedicated exam interface with countdown timers, split-view document navigation, and auto-scrolling questions.
+- **Comprehensive Question Support**: 
+  - Multiple Choice (MCQ)
+  - True/False/Not Given
+  - Matching Headings (Drag-and-Drop)
+  - Diagram Labeling
+- **Detailed Analytics Dashboard**: Visualize historical performance, track progress over time, and receive AI-generated explanations for every answer.
+- **Responsive Design**: Fully optimized for desktop, tablet, and mobile viewing with smooth animations.
 
-### Cấu hình API
+## Technology Stack
 
-- Tất cả các yêu cầu đến `/api/*` sẽ được Next.js proxy đến `https://apisci.hoangvu.id.vn/*`
-- Các API endpoint được cấu hình trong `src/config/api.ts`
-- Các API route trong `src/app/api/` sử dụng URL hoàn chỉnh đến backend
+- **Framework**: Next.js 15 (App Router)
+- **Library**: React 19
+- **Styling**: Tailwind CSS v3.4, Framer Motion
+- **State Management**: React Context, SWR (Client-side Data Fetching)
+- **PDF Viewing**: React PDF / Custom viewer integration
+- **Authentication**: NextAuth.js (Google OAuth)
 
-## Features
-
-- **Modern UI**: Clean, responsive interface built with Tailwind CSS
-- **Interactive Exam Experience**: Simulates the real IELTS/TOEIC exam environment
-- **PDF Upload**: Simple drag-and-drop interface for uploading academic papers
-- **Exam Configuration**: Customize exam type, difficulty, and passage preferences
-- **Real-time Feedback**: Instant scoring and detailed answer explanations
-- **Progress Tracking**: Monitor your performance across multiple exams
-
-## Project Structure
-
-```
-frontend/
-├── public/              # Static assets
-├── src/
-│   ├── app/            # Next.js App Router
-│   │   ├── create/     # Exam creation page
-│   │   ├── exam/[id]/  # Exam taking interface
-│   │   └── page.tsx    # Home page
-│   ├── components/     # Reusable UI components
-│   ├── config/         # Configuration files
-│   ├── hooks/          # Custom React hooks
-│   ├── styles/         # Global styles
-│   └── types/          # TypeScript type definitions
-├── tailwind.config.js  # Tailwind CSS configuration
-└── next.config.js      # Next.js configuration
-```
-
-## Getting Started
+## Setup and Installation
 
 ### Prerequisites
 
-- Node.js 18.0.0 or later
-- npm, yarn, or pnpm
+- Node.js 18+ (LTS recommended)
+- npm or yarn package manager
 
-### Installation
+### Installation Steps
 
-1. Install dependencies:
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/hoangvu1806/AcaRead.git
+   cd AcaRead/frontend
+   ```
 
-```bash
-npm install
-# or
-yarn install
-# or
-pnpm install
-```
+2. **Install Dependencies**:
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
 
-2. Create a `.env.local` file in the root directory with the following variables:
+3. **Configure Environment**:
+   Create a `.env.local` file in the `frontend` directory:
+   ```env
+   NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
+   NEXT_PUBLIC_GOOGLE_CLIENT_ID=your_google_client_id
+   NEXTAUTH_SECRET=your_nextauth_secret
+   NEXTAUTH_URL=http://localhost:3000
+   ```
 
-```
-NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
-```
+4. **Run Development Server**:
+   ```bash
+   npm run dev
+   ```
 
-### Development
+5. **Access Application**:
+   Open http://localhost:3000 in your browser.
 
-Run the development server:
+## Building for Production
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the application.
-
-### Building for Production
+To create an optimized production build:
 
 ```bash
 npm run build
-# or
-yarn build
-# or
-pnpm build
-```
-
-Then start the production server:
-
-```bash
 npm start
-# or
-yarn start
-# or
-pnpm start
 ```
 
-## API Integration
+## Project Structure
 
-The frontend communicates with the backend server through RESTful API endpoints defined in `src/config/api.ts`. Make sure the backend server is running before using the application.
+- `src/app/`: Next.js App Router pages and layouts (e.g., `/create`, `/exam/[id]`).
+- `src/components/`: Reusable UI components for navigation, exam interface, and dashboards.
+- `src/hooks/`: Custom React hooks for authentication and data fetching.
+- `src/lib/`: Utility functions, API helpers, and constants.
+- `public/`: Static assets and images.
 
-## Technologies Used
+## License
 
-- **Next.js**: React framework for server-rendered applications
-- **React**: JavaScript library for building user interfaces
-- **Tailwind CSS**: Utility-first CSS framework
-- **TypeScript**: Typed superset of JavaScript
-- **Axios**: Promise-based HTTP client
-- **React Markdown**: Markdown renderer for React
-- **GSAP**: Animation library for interactive elements
-
-## Browser Support
-
-The application is optimized for modern browsers including:
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
+This project is licensed under the MIT License.

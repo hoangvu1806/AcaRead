@@ -3,10 +3,10 @@
 # run.sh - Script to build and run Docker container for frontend
 
 # Configuration
-GITHUB_REPO="https://github.com/hoangvu1806/SciHorizone.git"
+GITHUB_REPO="https://github.com/hoangvu1806/AcaRead.git"
 BRANCH="main"
-CONTAINER_NAME="frontend-app"
-IMAGE_NAME="frontend-nextjs"
+CONTAINER_NAME="acaread-frontend"
+IMAGE_NAME="acaread-nextjs"
 IMAGE_TAG="latest"
 PROD_PORT=4040
 DEV_PORT=4041

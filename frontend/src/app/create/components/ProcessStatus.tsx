@@ -1,195 +1,129 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-
-type Step = {
-  id: number;
-  title: string;
-  description: string;
-  status: 'idle' | 'processing' | 'completed' | 'error';
-};
+import { 
+    CheckCircle2, 
+    UploadCloud, 
+    ScanSearch, 
+    BrainCircuit, 
+    Sparkles, 
+    ShieldCheck, 
+    Loader2 
+} from "lucide-react";
 
 interface ProcessStatusProps {
-  currentStep: number;
-  progress: number;
-  statusMessage: string;
-  isProcessing: boolean;
+    currentStep: number;
+    progress: number;
+    statusMessage: string;
+    isProcessing: boolean;
 }
 
-export function ProcessStatus({ currentStep, progress, statusMessage, isProcessing }: ProcessStatusProps) {
-  const [steps, setSteps] = useState<Step[]>([
-    {
-      id: 1,
-      title: 'Document Upload',
-      description: 'Upload PDF file or provide URL',
-      status: 'idle',
-    },
-    {
-      id: 2,
-      title: 'Content Extraction',
-      description: 'Extract text content from the document',
-      status: 'idle',
-    },
-    {
-      id: 3,
-      title: 'Exam Generation',
-      description: 'Generate exam questions based on content',
-      status: 'idle',
-    },
-    {
-      id: 4,
-      title: 'Exam Finalization',
-      description: 'Format and prepare the final exam',
-      status: 'idle',
-    },
-  ]);
+export function ProcessStatus({
+    progress,
+    statusMessage,
+}: ProcessStatusProps) {
+    const steps = [
+        { id: 1, title: "Upload", threshold: 0, icon: UploadCloud, color: "text-sky-400", border: "border-sky-500", shadow: "shadow-sky-500/50" },
+        { id: 2, title: "Analyze", threshold: 20, icon: ScanSearch, color: "text-violet-400", border: "border-violet-500", shadow: "shadow-violet-500/50" },
+        { id: 3, title: "Plan", threshold: 40, icon: BrainCircuit, color: "text-fuchsia-400", border: "border-fuchsia-500", shadow: "shadow-fuchsia-500/50" },
+        { id: 4, title: "Generate", threshold: 60, icon: Sparkles, color: "text-amber-400", border: "border-amber-500", shadow: "shadow-amber-500/50" },
+        { id: 5, title: "Validate", threshold: 80, icon: ShieldCheck, color: "text-emerald-400", border: "border-emerald-500", shadow: "shadow-emerald-500/50" },
+    ];
 
-  // Update step statuses based on currentStep prop
-  useEffect(() => {
-    if (!isProcessing && currentStep === 0) {
-      // Reset all steps to idle if not processing
-      setSteps(prevSteps => prevSteps.map(step => ({ ...step, status: 'idle' })));
-      return;
-    }
-
-    setSteps(prevSteps => 
-      prevSteps.map(step => {
-        if (step.id < currentStep) {
-          return { ...step, status: 'completed' };
-        } else if (step.id === currentStep) {
-          return { ...step, status: 'processing' };
-        } else {
-          return { ...step, status: 'idle' };
-        }
-      })
-    );
-  }, [currentStep, isProcessing]);
-
-  const getStatusIcon = (status: Step['status']) => {
-    switch (status) {
-      case 'idle':
-        return (
-          <div className="w-10 h-10 rounded-full bg-secondary-100 flex items-center justify-center">
-            <span className="text-secondary-400 text-sm font-medium"></span>
-          </div>
-        );
-      case 'processing':
-        return (
-          <motion.div 
-            className="w-10 h-10 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center" 
-            animate={{ scale: [1, 1.1, 1] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-          >
-            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-            </svg>
-          </motion.div>
-        );
-      case 'completed':
-        return (
-          <motion.div 
-            className="w-10 h-10 rounded-full bg-accent-100 text-accent-600 flex items-center justify-center"
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ type: "spring", stiffness: 500, damping: 15 }}
-          >
-            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-            </svg>
-          </motion.div>
-        );
-      case 'error':
-        return (
-          <motion.div 
-            className="w-10 h-10 rounded-full bg-red-100 text-red-600 flex items-center justify-center"
-            animate={{ rotate: [0, 5, -5, 5, -5, 0] }}
-            transition={{ duration: 0.5 }}
-          >
-            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </motion.div>
-        );
-    }
-  };
-
-  return (
-    <motion.div 
-      className="space-y-6"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-    >
-      <motion.div 
-        className="w-full bg-gray-100 rounded-full h-3"
-        initial={{ width: 0 }}
-        animate={{ width: "100%" }}
-        transition={{ duration: 0.5 }}
-      >
-        <motion.div
-          className="bg-gradient-to-r from-primary-500 to-accent-500 h-3 rounded-full"
-          style={{ width: `${progress}%` }}
-          initial={{ width: '0%' }}
-          animate={{ width: `${progress}%` }}
-          transition={{ duration: 0.5 }}
-        />
-      </motion.div>
-      
-      <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
-        {steps.slice(1, 4).map((step, index) => (
-          <motion.div 
-            key={step.id}
-            className={`p-4 rounded-lg border-2 ${
-              step.status === 'completed' ? 'border-accent-500 bg-accent-50' : 
-              step.status === 'processing' ? 'border-primary-500 bg-primary-50' : 
-              'border-gray-200 bg-white'
-            } shadow-sm transition-all duration-300`}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: index * 0.1 }}
-          >
-            <div className="flex items-center mb-3">
-              <div className="flex-shrink-0">{getStatusIcon(step.status)}</div>
-              <div className="ml-4">
-                <h4 className="text-base font-semibold text-secondary-900">{step.title}</h4>
-              </div>
+    return (
+        <div className="w-full py-4 px-1">
+            {/* Status Header */}
+            <div className="text-center mb-6">
+                <h3 className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-violet-500 to-amber-500 animate-gradient-xy mb-1">
+                    {progress === 100 ? "Exam Ready!" : "AI Processing"}
+                </h3>
+                <p className="text-slate-400 text-xs font-mono tracking-wide truncate">
+                    {`>> ${statusMessage || "Initializing..."}`}
+                    <span className="animate-pulse">_</span>
+                </p>
             </div>
-            <p className="text-sm text-secondary-600 mt-1">{step.description}</p>
-            {step.status === 'processing' && (
-              <motion.div 
-                className="w-full h-1 bg-primary-100 mt-3 overflow-hidden rounded-full"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3 }}
-              >
-                <motion.div 
-                  className="h-1 bg-primary-500 rounded-full"
-                  animate={{ x: ["-100%", "100%"] }}
-                  transition={{ 
-                    repeat: Infinity, 
-                    duration: 1.5,
-                    ease: "linear"
-                  }}
-                />
-              </motion.div>
-            )}
-          </motion.div>
-        ))}
-      </div>
 
-      <motion.div 
-        className="bg-white border border-secondary-200 rounded-lg p-5 shadow-sm"
-        animate={{ 
-          boxShadow: isProcessing ? 
-            '0 4px 14px rgba(0, 0, 0, 0.1)' : 
-            '0 1px 3px rgba(0, 0, 0, 0.05)'
-        }}
-        transition={{ duration: 0.3 }}
-      >
-        <h4 className="text-sm font-medium text-secondary-900 mb-2">Status Message</h4>
-        <p className="text-sm text-secondary-600">{statusMessage || 'Ready to process. Configure your options and click "Generate Exam".'}</p>
-      </motion.div>
-    </motion.div>
-  );
-} 
+            {/* Flow Visualization */}
+            <div className="relative w-full h-16 flex items-center justify-center px-1">
+                {/* 1. Background Track */}
+                <div className="absolute top-1/2 left-0 w-full h-0.5 bg-white/5 -translate-y-1/2 rounded-full overflow-hidden">
+                     <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent_0%,rgba(255,255,255,0.1)_50%,transparent_100%)] animate-[shimmer_2s_infinite]"></div>
+                </div>
+
+                {/* 2. Active Liquid Line */}
+                <div 
+                    className="absolute top-1/2 left-0 h-0.5 -translate-y-1/2 bg-gradient-to-r from-sky-500 via-violet-500 to-amber-500 shadow-[0_0_10px_rgba(139,92,246,0.5)] transition-all duration-700 ease-out rounded-full z-0"
+                    style={{ width: `${progress}%` }}
+                >
+                    {/* Head Flare */}
+                     <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-white rounded-full blur-[1px] shadow-[0_0_8px_white]"></div>
+                </div>
+
+                {/* 3. Steps Nodes */}
+                <div className="absolute inset-0 w-full h-full">
+                    {steps.map((step, index) => {
+                        const isCompleted = progress > step.threshold + 15;
+                        const isActive = progress >= step.threshold && progress < (step.threshold + 20);
+                        
+                        const position = `${(index / (steps.length - 1)) * 100}%`;
+
+                        return (
+                            <div 
+                                key={step.id} 
+                                className="absolute top-1/2 -translate-y-1/2 flex flex-col items-center group transition-all duration-500"
+                                style={{ 
+                                    left: position, 
+                                    transform: `translate(-${index === steps.length - 1 ? 100 : (index === 0 ? 0 : 50)}%, -50%)` 
+                                }}
+                            >
+                                {/* Node Circle */}
+                                <div className={`
+                                    relative z-10 w-8 h-8 md:w-10 md:h-10 rounded-lg flex items-center justify-center border transition-all duration-500
+                                    ${isCompleted 
+                                        ? `bg-[#0A0A0A] ${step.border} ${step.shadow} scale-100 rotate-0` 
+                                        : isActive 
+                                            ? `bg-[#0A0A0A] ${step.border} ${step.shadow} scale-110 -rotate-3` 
+                                            : "bg-[#0A0A0A] border-white/10 scale-90 rotate-45 opacity-50 grayscale"
+                                    }
+                                `}>
+                                    <div className={`transition-all duration-500 ${isActive ? "scale-110" : "scale-100"}`}>
+                                        {isCompleted ? (
+                                            <CheckCircle2 className={`w-4 h-4 md:w-5 md:h-5 ${step.color}`} />
+                                        ) : isActive ? (
+                                            <step.icon className={`w-4 h-4 md:w-5 md:h-5 ${step.color} ${
+                                                step.id === 1 ? "animate-bounce" :
+                                                step.id === 2 ? "animate-pulse" :
+                                                step.id === 3 ? "animate-spin-slow" :
+                                                step.id === 4 ? "animate-pulse" :
+                                                "animate-ping-slow"
+                                            }`} />
+                                        ) : (
+                                            <step.icon className="w-3 h-3 md:w-4 md:h-4 text-slate-600 -rotate-45" />
+                                        )}
+                                    </div>
+                                    
+                                    {/* Active Glow Ring */}
+                                    {isActive && (
+                                        <div className={`absolute inset-0 rounded-lg ${step.border} border opacity-50 animate-ping`}></div>
+                                    )}
+                                </div>
+
+                                {/* Title Label - Hidden on very small screens or abbreviated */}
+                                <div className={`
+                                    absolute -bottom-6 text-[8px] md:text-[10px] font-bold uppercase tracking-wider transition-all duration-500 whitespace-nowrap px-1 py-0.5 rounded
+                                    ${isActive 
+                                        ? "text-white bg-white/5 translate-y-0 opacity-100" 
+                                        : isCompleted 
+                                            ? `${step.color} translate-y-0 opacity-80` 
+                                            : "text-slate-700 translate-y-1 opacity-0"
+                                    }
+                                `}>
+                                    {step.title}
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
+        </div>
+    );
+}

@@ -1,0 +1,29 @@
+# Core Framework
+fastapi
+uvicorn
+python-dotenv
+requests
+pydantic
+
+# Database
+sqlalchemy
+
+# Authentication & Security
+pyjwt
+bcrypt
+python-multipart
+
+# AI & LLM
+langchain
+langchain-google-genai
+google-generativeai
+
+# PDF Processing
+docling
+pymupdf4llm
+pymupdf
+pypdf2
+pdfplumber
+
+# Utilities
+aiofiles

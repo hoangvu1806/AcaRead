@@ -1,12 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     async rewrites() {
+        // Use environment variable or default to localhost for development
+        const backendUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000";
+        
         return [
-            // Cấu hình tổng quát để proxy tất cả các yêu cầu /api/* đến backend
-            // Sử dụng domain sciapi.hoangvu.id.vn đã được ánh xạ đến FastAPI server
+            // Only proxy /api/v1/* to backend
+            // Do NOT proxy /api/auth/* - that's handled by NextAuth
             {
-                source: "/api/:path*",
-                destination: "https://sciapi.hoangvu.id.vn/:path*",
+                source: "/api/v1/:path*",
+                destination: `${backendUrl}/api/v1/:path*`,
             },
         ];
     },

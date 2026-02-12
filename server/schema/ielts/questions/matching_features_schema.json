@@ -1,0 +1,61 @@
+{
+  "type": "object",
+  "description": "IELTS Matching Features Questions (Type 6)",
+  "properties": {
+    "task_type": {
+      "type": "string",
+      "const": "Matching Features",
+      "description": "Identifies the question type (classifying information)."
+    },
+    "instruction": {
+      "type": "string",
+      "description": "Standard instruction.",
+      "default": "Look at the following items and the list of categories below. Match each item with the correct category."
+    },
+    "features_list": {
+      "type": "array",
+      "description": "The list of options (e.g., researchers, dates, places) usually in a box.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Identifier (e.g., 'A', 'B', 'C')."
+          },
+          "text": {
+            "type": "string",
+            "description": "The name or category (e.g., 'John Smith', '1990')."
+          }
+        },
+        "required": ["id", "text"]
+      }
+    },
+    "questions": {
+      "type": "array",
+      "description": "List of statements/findings/descriptions to match to features.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "question_number": {
+            "type": "integer",
+            "description": "Sequential number of the question."
+          },
+          "statement": {
+            "type": "string",
+            "description": "The statement describing the feature."
+          },
+          "correct_feature_id": {
+            "type": "string",
+            "description": "The ID of the matching feature (A, B, C...)."
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Explanation citing evidence."
+          }
+        },
+        "required": ["question_number", "statement", "correct_feature_id", "explanation"]
+      }
+    }
+  },
+  "required": ["task_type", "instruction", "features_list", "questions"]
+}

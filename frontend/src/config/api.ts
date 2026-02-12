@@ -1,7 +1,7 @@
 // API configuration for the application
 export const API_BASE_URL =
     process.env.NODE_ENV === "production"
-        ? "https://sciapi.hoangvu.id.vn"
+        ? "https://apisci.hoangvu.id.vn"
         : "http://localhost:8088";
 
 // List of endpoints

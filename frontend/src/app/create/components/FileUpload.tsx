@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
+import { UploadCloud, Link as LinkIcon, FileText, X, File, AlertCircle } from "lucide-react";
 
 interface FileUploadProps {
     onFileSelected: (
@@ -79,17 +80,10 @@ export function FileUpload({
         }
     };
 
-    const openFileSelector = (e: React.MouseEvent) => {
+    const openFileSelector = () => {
         if (disabled) return;
-        // e.preventDefault(); // Removed to test if it resolves the click issue
-        // e.stopPropagation(); // Removed to test if it resolves the click issue
-
         if (fileInputRef.current) {
             fileInputRef.current.click();
-        } else {
-            console.error(
-                "FileUpload: fileInputRef.current is null when trying to open file selector."
-            );
         }
     };
 
@@ -103,86 +97,51 @@ export function FileUpload({
     };
 
     return (
-        <div className="w-full p-4 bg-white rounded-xl shadow-xl transition-all duration-300 ease-in-out">
-            {/* Segmented Control for Upload Method */}
-            <div className="flex justify-center mb-6 bg-secondary-100 rounded-lg p-1 shadow-sm">
+        <div className="w-full font-sans">
+            {/* Segmented Control */}
+            <div className="flex p-1 bg-white/5 border border-white/5 rounded-xl mb-6">
                 <button
                     type="button"
-                    className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors duration-200 ease-in-out 
-            ${
-                uploadMethod === "file"
-                    ? "bg-primary-600 text-white shadow-md"
-                    : "text-secondary-700 hover:bg-secondary-200"
-            } 
-            ${disabled ? "opacity-50 cursor-not-allowed" : ""}`}
+                    className={`flex-1 py-2.5 px-4 rounded-lg text-sm font-medium transition-all duration-200 flex items-center justify-center gap-2
+                    ${uploadMethod === "file"
+                        ? "bg-white/10 text-white shadow-sm ring-1 ring-white/10"
+                        : "text-slate-400 hover:text-white hover:bg-white/5"
+                    } ${disabled ? "opacity-50 cursor-not-allowed" : ""}`}
                     onClick={() => handleMethodChange("file")}
                     disabled={disabled}
                 >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="inline-block h-5 w-5 mr-2"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                    >
-                        <path
-                            fillRule="evenodd"
-                            d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z"
-                            clipRule="evenodd"
-                        />
-                    </svg>
+                    <UploadCloud className="w-4 h-4" />
                     Upload File
                 </button>
                 <button
                     type="button"
-                    className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors duration-200 ease-in-out
-            ${
-                uploadMethod === "url"
-                    ? "bg-primary-600 text-white shadow-md"
-                    : "text-secondary-700 hover:bg-secondary-200"
-            }
-            ${disabled ? "opacity-50 cursor-not-allowed" : ""}`}
+                    className={`flex-1 py-2.5 px-4 rounded-lg text-sm font-medium transition-all duration-200 flex items-center justify-center gap-2
+                    ${uploadMethod === "url"
+                         ? "bg-white/10 text-white shadow-sm ring-1 ring-white/10"
+                         : "text-slate-400 hover:text-white hover:bg-white/5"
+                    } ${disabled ? "opacity-50 cursor-not-allowed" : ""}`}
                     onClick={() => handleMethodChange("url")}
                     disabled={disabled}
                 >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="inline-block h-5 w-5 mr-2"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                    >
-                        <path
-                            fillRule="evenodd"
-                            d="M4.25 5.5a.75.75 0 00-.75.75v8.5c0 .414.336.75.75.75h8.5a.75.75 0 00.75-.75v-4a.75.75 0 011.5 0v4A2.25 2.25 0 0112.75 17h-8.5A2.25 2.25 0 012 14.75v-8.5A2.25 2.25 0 014.25 4h5a.75.75 0 010 1.5h-5z"
-                            clipRule="evenodd"
-                        />
-                        <path
-                            fillRule="evenodd"
-                            d="M6.194 12.753a.75.75 0 001.06.053L16.5 4.44v2.81a.75.75 0 001.5 0v-4.5a.75.75 0 00-.75-.75h-4.5a.75.75 0 000 1.5h2.553l-9.056 8.194a.75.75 0 00-.053 1.06z"
-                            clipRule="evenodd"
-                        />
-                    </svg>
+                    <LinkIcon className="w-4 h-4" />
                     Enter URL
                 </button>
             </div>
 
             {uploadMethod === "file" ? (
                 <div
-                    className={`relative flex flex-col items-center justify-center w-full h-64 border-2 border-dashed rounded-xl 
-            transition-all duration-300 ease-in-out cursor-pointer 
-            ${
-                dragActive
-                    ? "border-primary-500 bg-primary-50 scale-105"
-                    : "border-secondary-300 hover:border-primary-400"
-            } 
-            ${file ? "bg-green-50 border-green-500" : ""} 
-            ${
-                disabled ? "opacity-60 cursor-not-allowed bg-secondary-100" : ""
-            }`}
+                    className={`relative flex flex-col items-center justify-center w-full h-64 rounded-xl border-2 border-dashed transition-all duration-300 ease-out cursor-pointer overflow-hidden
+                    ${dragActive
+                        ? "border-red-500 bg-red-500/5 scale-[1.02]"
+                        : "border-white/10 hover:border-white/20 hover:bg-white/5"
+                    } 
+                    ${file ? "border-emerald-500/50 bg-emerald-500/5" : ""}
+                    ${disabled ? "opacity-60 cursor-not-allowed" : ""}`}
                     onDragEnter={handleDrag}
                     onDragLeave={handleDrag}
                     onDragOver={handleDrag}
                     onDrop={handleDrop}
-                    onClick={openFileSelector} // Allow click to open file dialog
+                    onClick={openFileSelector}
                 >
                     <input
                         ref={fileInputRef}
@@ -194,131 +153,68 @@ export function FileUpload({
                     />
 
                     {file ? (
-                        <div className="text-center p-4">
-                            <svg
-                                className="w-16 h-16 mx-auto text-green-600 mb-3"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                strokeWidth={1.5}
-                                stroke="currentColor"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M9 12.75l3 3m0 0l3-3m-3 3v-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                                />
-                            </svg>
-                            <p className="font-semibold text-lg text-secondary-800">
+                        <div className="text-center p-6 w-full max-w-sm">
+                            <div className="w-16 h-16 bg-emerald-500/20 rounded-2xl flex items-center justify-center mx-auto mb-4 text-emerald-500">
+                                <FileText className="w-8 h-8" />
+                            </div>
+                            <h3 className="text-white font-medium truncate mb-1" title={file.name}>
                                 {file.name}
-                            </p>
-                            <p className="text-sm text-secondary-600 mt-1">
+                            </h3>
+                            <p className="text-sm text-slate-400 mb-6">
                                 {(file.size / 1024 / 1024).toFixed(2)} MB
                             </p>
+                            
                             {!disabled && (
                                 <button
                                     type="button"
-                                    className="mt-4 px-4 py-2 bg-red-500 text-white text-sm font-medium rounded-md hover:bg-red-600 transition-colors duration-200 ease-in-out shadow-sm"
+                                    className="inline-flex items-center gap-2 px-4 py-2 bg-red-500/10 hover:bg-red-500/20 text-red-500 rounded-lg text-sm font-medium transition-colors border border-red-500/20"
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         handleRemoveFile();
-                                    }} // Stop propagation to prevent opening file dialog
-                                    disabled={disabled}
+                                    }}
                                 >
+                                    <X className="w-4 h-4" />
                                     Remove File
                                 </button>
                             )}
                         </div>
                     ) : (
-                        <div className="text-center">
-                            <svg
-                                className={`w-20 h-20 mx-auto mb-4 ${
-                                    dragActive
-                                        ? "text-primary-500 animate-bounce"
-                                        : "text-secondary-400"
-                                }`}
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                strokeWidth={1.2}
-                                stroke="currentColor"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M12 16.5V9.75m0 0l-3.75 3.75M12 9.75l3.75 3.75M3 17.25V6.75A2.25 2.25 0 015.25 4.5h13.5A2.25 2.25 0 0121 6.75v10.5A2.25 2.25 0 0118.75 19.5H5.25A2.25 2.25 0 013 17.25z"
-                                />
-                            </svg>
-                            <p
-                                className={`font-semibold text-xl ${
-                                    dragActive
-                                        ? "text-primary-600"
-                                        : "text-secondary-700"
-                                }`}
-                            >
-                                Drag & Drop PDF Here
-                            </p>
-                            <p className="text-secondary-500 mt-1">
-                                or{" "}
-                                <span className="text-primary-600 font-medium hover:underline">
-                                    click to browse
-                                </span>
-                            </p>
-                            <p className="text-xs text-secondary-400 mt-4">
-                                Max file size: 10MB. PDF format only.
+                        <div className="text-center p-6">
+                            <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 transition-colors 
+                                ${dragActive ? "bg-red-500 text-white" : "bg-white/5 text-slate-400"}`}>
+                                <UploadCloud className="w-8 h-8" />
+                            </div>
+                            <h3 className="text-lg font-medium text-white mb-2">
+                                {dragActive ? "Drop file now" : "Click to upload or drag & drop"}
+                            </h3>
+                            <p className="text-sm text-slate-400 mb-6 max-w-xs mx-auto">
+                                Supports PDF files up to 10MB.
                             </p>
                         </div>
                     )}
                 </div>
             ) : (
-                <div className="space-y-4">
-                    <div>
-                        <label
-                            htmlFor="pdf-url"
-                            className="block text-sm font-medium text-secondary-700 mb-1"
-                        >
-                            PDF Document URL
-                        </label>
-                        <div className="mt-1 relative rounded-md shadow-sm">
-                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <svg
-                                    className="h-5 w-5 text-secondary-400"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 20 20"
-                                    fill="currentColor"
-                                >
-                                    <path
-                                        fillRule="evenodd"
-                                        d="M4.25 5.5a.75.75 0 00-.75.75v8.5c0 .414.336.75.75.75h8.5a.75.75 0 00.75-.75v-4a.75.75 0 011.5 0v4A2.25 2.25 0 0112.75 17h-8.5A2.25 2.25 0 012 14.75v-8.5A2.25 2.25 0 014.25 4h5a.75.75 0 010 1.5h-5z"
-                                        clipRule="evenodd"
-                                    />
-                                    <path
-                                        fillRule="evenodd"
-                                        d="M6.194 12.753a.75.75 0 001.06.053L16.5 4.44v2.81a.75.75 0 001.5 0v-4.5a.75.75 0 00-.75-.75h-4.5a.75.75 0 000 1.5h2.553l-9.056 8.194a.75.75 0 00-.053 1.06z"
-                                        clipRule="evenodd"
-                                    />
-                                </svg>
-                            </div>
-                            <input
-                                type="url"
-                                id="pdf-url"
-                                value={fileUrl}
-                                onChange={handleUrlChange}
-                                placeholder="https://example.com/document.pdf"
-                                className={`block w-full pl-10 pr-3 py-2 border border-secondary-300 rounded-md leading-5 bg-white placeholder-secondary-400 
-                  focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm transition-colors duration-200 ease-in-out 
-                  ${
-                      disabled
-                          ? "opacity-60 cursor-not-allowed bg-secondary-100"
-                          : ""
-                  }`}
-                                disabled={disabled}
-                            />
+                <div className="bg-white/5 border border-white/5 rounded-xl p-6">
+                    <label htmlFor="pdf-url" className="block text-sm font-medium text-slate-300 mb-2">
+                        PDF Document URL
+                    </label>
+                    <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
+                            <LinkIcon className="w-5 h-5" />
                         </div>
-                        <p className="mt-2 text-xs text-secondary-500">
-                            Enter a direct URL to the PDF document you want to
-                            use.
-                        </p>
+                        <input
+                            type="url"
+                            id="pdf-url"
+                            value={fileUrl}
+                            onChange={handleUrlChange}
+                            placeholder="https://example.com/document.pdf"
+                            className="block w-full pl-10 pr-3 py-3 bg-black/50 border border-white/10 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:border-red-500/50 transition-all font-mono text-sm"
+                            disabled={disabled}
+                        />
+                    </div>
+                     <div className="mt-3 flex items-start gap-2 text-xs text-slate-500">
+                        <AlertCircle className="w-4 h-4 text-slate-400 mt-0.5 flex-shrink-0" />
+                        <p>Make sure the URL is directly accessible and points to a PDF file.</p>
                     </div>
                 </div>
             )}

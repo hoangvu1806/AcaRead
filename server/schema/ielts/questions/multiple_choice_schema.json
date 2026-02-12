@@ -1,0 +1,55 @@
+{
+  "type": "object",
+  "description": "IELTS Multiple Choice Questions (Type 1)",
+  "properties": {
+    "task_type": {
+      "type": "string",
+      "const": "Multiple Choice",
+      "description": "Identifies the question type."
+    },
+    "instruction": {
+      "type": "string",
+      "description": "Standard instruction: 'Choose the correct letter, A, B, C or D.'",
+      "default": "Choose the correct letter, A, B, C or D."
+    },
+    "questions": {
+      "type": "array",
+      "description": "List of multiple choice questions.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "question_number": {
+            "type": "integer",
+            "description": "Sequential number of the question in the exam."
+          },
+          "question_text": {
+            "type": "string",
+            "description": "The question stem or incomplete sentence."
+          },
+          "options": {
+            "type": "object",
+            "description": "The 4 options for the question.",
+            "properties": {
+              "A": {"type": "string"},
+              "B": {"type": "string"},
+              "C": {"type": "string"},
+              "D": {"type": "string"}
+            },
+            "required": ["A", "B", "C", "D"]
+          },
+          "correct_answer": {
+            "type": "string",
+            "enum": ["A", "B", "C", "D"],
+            "description": "The correct option key."
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Detailed explanation of why the answer is correct and why others are incorrect, citing evidence from the text."
+          }
+        },
+        "required": ["question_number", "question_text", "options", "correct_answer", "explanation"]
+      }
+    }
+  },
+  "required": ["task_type", "instruction", "questions"]
+}

@@ -1,0 +1,43 @@
+{
+  "type": "object",
+  "description": "IELTS Matching Information Questions (Type 5)",
+  "properties": {
+    "task_type": {
+      "type": "string",
+      "const": "Matching Information",
+      "description": "Identifies the question type."
+    },
+    "instruction": {
+      "type": "string",
+      "description": "Standard instruction.",
+      "default": "Which paragraph contains the following information? NB You may use any letter more than once."
+    },
+    "questions": {
+      "type": "array",
+      "description": "List of information points to locate.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "question_number": {
+            "type": "integer",
+            "description": "Sequential number of the question."
+          },
+          "information_statement": {
+            "type": "string",
+            "description": "A specific detail or idea from the text."
+          },
+          "correct_paragraph": {
+            "type": "string",
+            "description": "The letter of the paragraph containing the info (e.g., 'A', 'C')."
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Quote the sentence from the paragraph that matches the statement."
+          }
+        },
+        "required": ["question_number", "information_statement", "correct_paragraph", "explanation"]
+      }
+    }
+  },
+  "required": ["task_type", "instruction", "questions"]
+}

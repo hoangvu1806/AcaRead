@@ -1,0 +1,44 @@
+{
+  "type": "object",
+  "description": "IELTS True / False / Not Given Questions (Type 2)",
+  "properties": {
+    "task_type": {
+      "type": "string",
+      "const": "True/False/Not Given",
+      "description": "Identifies the question type."
+    },
+    "instruction": {
+      "type": "string",
+      "description": "Standard instruction for factual identification.",
+      "default": "Do the following statements agree with the information given in the Reading Passage? In boxes ... write: TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this."
+    },
+    "questions": {
+      "type": "array",
+      "description": "List of statements to verify against the text.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "question_number": {
+            "type": "integer",
+            "description": "Sequential number of the question."
+          },
+          "statement": {
+            "type": "string",
+            "description": "The statement to be verified."
+          },
+          "correct_answer": {
+            "type": "string",
+            "enum": ["TRUE", "FALSE", "NOT GIVEN"],
+            "description": "The correct judgment."
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Explanation citing textual evidence. For FALSE, show contradiction. For NOT GIVEN, explain absence of info."
+          }
+        },
+        "required": ["question_number", "statement", "correct_answer", "explanation"]
+      }
+    }
+  },
+  "required": ["task_type", "instruction", "questions"]
+}

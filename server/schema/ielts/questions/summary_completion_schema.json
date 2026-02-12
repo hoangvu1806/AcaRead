@@ -1,0 +1,69 @@
+{
+  "type": "object",
+  "description": "IELTS Summary Completion Questions (Type 8)",
+  "properties": {
+    "task_type": {
+      "type": "string",
+      "const": "Summary Completion",
+      "description": "Identifies the question type."
+    },
+    "instruction": {
+      "type": "string",
+      "description": "Standard instruction. May be 'Choose NO MORE THAN X WORDS from the passage' OR 'Choose the correct letter A-G from the box'.",
+      "default": "Complete the summary below. Choose NO MORE THAN TWO WORDS from the passage for each answer."
+    },
+    "summary_title": {
+      "type": "string",
+      "description": "Title of the summary."
+    },
+    "summary_text": {
+      "type": "string",
+      "description": "The summary paragraph with blanks marked as [question_number] (e.g., 'The process begins when ... [21] ...')."
+    },
+    "completion_type": {
+      "type": "string",
+      "enum": ["from_passage", "from_box"],
+      "default": "from_passage",
+      "description": "Whether answers come directly from text or a list of options."
+    },
+    "word_limit": {
+      "type": "integer",
+      "description": "Max words if from_passage.",
+      "default": 2
+    },
+    "options_box": {
+      "type": "array",
+      "description": "Only used if completion_type is 'from_box'. List of words/phrases.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string"},
+          "text": {"type": "string"}
+        }
+      }
+    },
+    "questions": {
+      "type": "array",
+      "description": "The answers corresponding to the blanks in summary_text.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "question_number": {
+            "type": "integer",
+            "description": "The number corresponding to the blank in summary_text."
+          },
+          "correct_answer": {
+            "type": "string",
+            "description": "The correct word/phrase."
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Location in text."
+          }
+        },
+        "required": ["question_number", "correct_answer", "explanation"]
+      }
+    }
+  },
+  "required": ["task_type", "instruction", "summary_title", "summary_text", "questions"]
+}

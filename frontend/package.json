@@ -10,11 +10,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "animejs": "^4.3.5",
     "framer-motion": "^11.18.2",
     "gsap": "^3.13.0",
     "html2canvas": "^1.4.1",
     "jspdf": "^3.0.1",
+    "lucide-react": "^0.563.0",
     "next": "15.3.2",
+    "next-auth": "^5.0.0-beta.30",
     "react": "^19.0.0",
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",

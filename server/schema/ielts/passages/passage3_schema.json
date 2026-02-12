@@ -1,0 +1,19 @@
+{
+  "type": "object",
+  "description": "IELTS Passage 3 Schema (Standard)",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Academic title."
+    },
+    "content": {
+      "type": "string",
+      "description": "Text dealing with abstract concepts, detailed arguments, or scientific research. High complexity and vocabulary. Length: ~750-1200 words."
+    },
+    "topic": {
+      "type": "string",
+      "description": "Topic: Psychology, Philosophy, Linguistics, Advanced Science (Abstract/Argumentative)."
+    }
+  },
+  "required": ["title", "content", "topic"]
+}

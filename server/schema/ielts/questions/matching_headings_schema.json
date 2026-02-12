@@ -1,0 +1,61 @@
+{
+  "type": "object",
+  "description": "IELTS Matching Headings Questions (Type 4)",
+  "properties": {
+    "task_type": {
+      "type": "string",
+      "const": "Matching Headings",
+      "description": "Identifies the question type."
+    },
+    "instruction": {
+      "type": "string",
+      "description": "Standard instruction.",
+      "default": "Choose the correct heading for each paragraph from the list of headings below."
+    },
+    "headings_list": {
+      "type": "array",
+      "description": "A list of potential headings (Roman numerals i, ii, iii...). There should be more headings than paragraphs.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Roman numeral identifier (e.g., 'i', 'iv', 'x')."
+          },
+          "heading_text": {
+            "type": "string",
+            "description": "The text of the heading."
+          }
+        },
+        "required": ["id", "heading_text"]
+      }
+    },
+    "questions": {
+      "type": "array",
+      "description": "List of matching tasks.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "question_number": {
+            "type": "integer",
+            "description": "Sequential number of the question."
+          },
+          "paragraph_reference": {
+            "type": "string",
+            "description": "The paragraph identifier (e.g., 'Paragraph A')."
+          },
+          "correct_heading_id": {
+            "type": "string",
+            "description": "The logical ID (Roman numeral) of the correct heading."
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Explanation of why this heading summarizes the paragraph best."
+          }
+        },
+        "required": ["question_number", "paragraph_reference", "correct_heading_id", "explanation"]
+      }
+    }
+  },
+  "required": ["task_type", "instruction", "headings_list", "questions"]
+}

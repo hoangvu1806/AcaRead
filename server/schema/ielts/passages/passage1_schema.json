@@ -1,0 +1,19 @@
+{
+  "type": "object",
+  "description": "IELTS Passage 1 Schema (Standard)",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Clear and straightforward title."
+    },
+    "content": {
+      "type": "string",
+      "description": "Text describing social issues or general interests. Factual and descriptive. Length: ~700-900 words."
+    },
+    "topic": {
+      "type": "string",
+      "description": "Topic: Education, History, Tourism, Nature (General Interest)."
+    }
+  },
+  "required": ["title", "content", "topic"]
+}

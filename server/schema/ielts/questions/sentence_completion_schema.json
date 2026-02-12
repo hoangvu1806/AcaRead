@@ -1,0 +1,48 @@
+{
+  "type": "object",
+  "description": "IELTS Sentence Completion Questions (Type 7)",
+  "properties": {
+    "task_type": {
+      "type": "string",
+      "const": "Sentence Completion",
+      "description": "Identifies the question type."
+    },
+    "instruction": {
+      "type": "string",
+      "description": "Standard instruction with word limit.",
+      "default": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer."
+    },
+    "word_limit": {
+      "type": "integer",
+      "description": "Maximum number of words allowed (usually 2 or 3).",
+      "default": 2
+    },
+    "questions": {
+      "type": "array",
+      "description": "List of incomplete sentences.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "question_number": {
+            "type": "integer",
+            "description": "Sequential number of the question."
+          },
+          "sentence": {
+            "type": "string",
+            "description": "The sentence with a blank space marked as '______'."
+          },
+          "correct_answer": {
+            "type": "string",
+            "description": "The exact words from the text filling the blank."
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Context and location of the answer in the text."
+          }
+        },
+        "required": ["question_number", "sentence", "correct_answer", "explanation"]
+      }
+    }
+  },
+  "required": ["task_type", "instruction", "questions"]
+}

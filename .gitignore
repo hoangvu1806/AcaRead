@@ -1,238 +1,82 @@
-# === GLOBAL GITIGNORE FOR WHOLE PROJECT ===
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+.agent/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
 
-# === PYTHON ===
-# Byte-compiled / optimized / DLL files
-**/__pycache__/
-**/*.py[cod]
-**/*$py.class
+# Virtual Environments
+venv/
+env/
+ENV/
+.env
+.venv/
 
-**/server/output/*
-**/server/data/*
-**/server/uploads/*
+# Environment Variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
 
-# C extensions
-**/*.so
+# IDEs and Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
 
-# Distribution / packaging
-**/.Python
-**/build/
-**/develop-eggs/
-**/dist/
-**/downloads/
-**/eggs/
-**/.eggs/
-**/lib/
-**/lib64/
-**/parts/
-**/sdist/
-**/var/
-**/wheels/
-**/*.egg-info/
-**/.installed.cfg
-**/*.egg
-**/MANIFEST
+# Data and Storage
+data/
+sessions/
+*.sqlite
+*.db
+*.sqlite3
+*.log
 
-# PyInstaller
-**/*.manifest
-**/*.spec
-
-# Installer logs
-**/pip-log.txt
-**/pip-delete-this-directory.txt
-
-# Unit test / coverage reports
-**/htmlcov/
-**/.tox/
-**/.nox/
-**/.coverage
-**/.coverage.*
-**/.cache
-**/nosetests.xml
-**/coverage.xml
-**/*.cover
-**/*.py,cover
-**/.hypothesis/
-**/.pytest_cache/
-**/cover/
-
-# Translations
-**/*.mo
-**/*.pot
-
-# Django stuff
-**/local_settings.py
-**/db.sqlite3
-**/db.sqlite3-journal
-
-# Flask stuff
-**/instance/
-**/.webassets-cache
-
-# Scrapy stuff
-**/.scrapy
-
-# Sphinx documentation
-**/docs/_build/
-
-# PyBuilder
-**/.pybuilder/
-**/target/
-
-# Jupyter Notebook
-**/.ipynb_checkpoints
-
-# IPython
-**/profile_default/
-**/ipython_config.py
-
-# pyenv
-**/.python-version
-
-# pipenv
-**/.Pipfile.lock
-
-# poetry
-**/.poetry/
-**/.poetry-cache/
-
-# pdm
-**/.pdm.toml
-**/.pdm-python
-
-# PEP 582
-**/__pypackages__/
-
-# Celery stuff
-**/celerybeat-schedule
-**/celerybeat.pid
-
-# SageMath parsed files
-**/*.sage.py
-
-# Environments
-**/.env
-**/.venv
-**/env/
-**/venv/
-**/ENV/
-**/env.bak/
-**/venv.bak/
-**/.env.*
-!**/.env.example
-
-# Spyder project settings
-**/.spyderproject
-**/.spyproject
-
-# Rope project settings
-**/.ropeproject
-
-# mkdocs documentation
-**/site
-
-# mypy
-**/.mypy_cache/
-**/.dmypy.json
-**/dmypy.json
-
-# Pyre type checker
-**/.pyre/
-
-# pytype static type analyzer
-**/.pytype/
-
-# Cython debug symbols
-**/cython_debug/
-
-# === JAVASCRIPT/TYPESCRIPT ===
-# Dependencies
-**/node_modules/
-**/.pnp
-**/.pnp.js
+# Project Documentation (Local only)
+docs/
 
 # Testing
-**/coverage/
+.pytest_cache/
+.coverage
+htmlcov/
 
-# Next.js
-**/.next/
-**/out/
+# Type Checking
+.mypy_cache/
+.dmypy.json
+dmypy.json
 
-# Production
-**/build/
-**/dist/
+# Jupyter Notebooks
+.ipynb_checkpoints
+*-checkpoint.ipynb
 
-# Misc
-**/.DS_Store
-**/*.pem
-**/Thumbs.db
+# Local Configuration
+config.local.json
+secrets.json
+oauth/
+client_secret*.json
 
-# Debug
-**/npm-debug.log*
-**/yarn-debug.log*
-**/yarn-error.log*
-**/pnpm-debug.log*
-**/*.log
 
-# Local env files
-**/.env.local
-**/.env.development.local
-**/.env.test.local
-**/.env.production.local
-
-# Vercel
-**/.vercel
-
-# Turborepo
-**/.turbo
-
-# TypeScript
-**/*.tsbuildinfo
-**/next-env.d.ts
-
-# === EDITOR/IDE ===
-# VSCode
-**/.vscode/*
-!**/.vscode/settings.json
-!**/.vscode/tasks.json
-!**/.vscode/launch.json
-!**/.vscode/extensions.json
-!**/.vscode/*.code-snippets
-
-# JetBrains IDEs
-**/.idea/
-**/*.iml
-**/*.ipr
-**/*.iws
-
-# Sublime Text
-**/*.sublime-project
-**/*.sublime-workspace
-
-# Vim
-**/*.swp
-**/*.swo
-
-# === MISC ===
-# Docker
-**/.dockerignore
-
-# CI/CD
-**/*.env.ci
-
-# Output from npm pack
-**/*.tgz
-
-# Logs
-**/*.log
-
-# Project specific
-**/plan.md
-**/results/
-**/uploads/
-**/tmp/
-**/temp/
-
-# Ignore lock files (optional, uncomment if you want to ignore lock files)
-# **/package-lock.json
-# **/yarn.lock
-# **/pnpm-lock.yaml
+# Temporary Files
+tmp/
+temp/

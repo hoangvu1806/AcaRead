@@ -1,0 +1,44 @@
+{
+  "type": "object",
+  "description": "IELTS Yes / No / Not Given Questions (Type 3)",
+  "properties": {
+    "task_type": {
+      "type": "string",
+      "const": "Yes/No/Not Given",
+      "description": "Identifies the question type."
+    },
+    "instruction": {
+      "type": "string",
+      "description": "Standard instruction for writer's views/claims.",
+      "default": "Do the following statements agree with the claims of the writer in the Reading Passage? In boxes ... write: YES if the statement agrees with the claims of the writer, NO if the statement contradicts the claims of the writer, NOT GIVEN if there is impossible to say what the writer thinks about this."
+    },
+    "questions": {
+      "type": "array",
+      "description": "List of statements to verify against the writer's views.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "question_number": {
+            "type": "integer",
+            "description": "Sequential number of the question."
+          },
+          "statement": {
+            "type": "string",
+            "description": "The statement reflecting a view or claim."
+          },
+          "correct_answer": {
+            "type": "string",
+            "enum": ["YES", "NO", "NOT GIVEN"],
+            "description": "The correct judgment."
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Explanation citing textual evidence of the writer's view. For NO, show contradiction. For NOT GIVEN, explain absence of opinion."
+          }
+        },
+        "required": ["question_number", "statement", "correct_answer", "explanation"]
+      }
+    }
+  },
+  "required": ["task_type", "instruction", "questions"]
+}

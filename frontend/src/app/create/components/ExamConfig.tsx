@@ -1,14 +1,13 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useEffect } from "react";
+import { FileText, BookOpen, Scale, HelpCircle, Layers, ListChecks } from "lucide-react";
 
 interface ExamConfigProps {
     config: {
-        examType: string;
-        difficulty: string;
-        passageType: string;
-        includeAnswers: boolean;
-        includeSummary: boolean;
+        passageType: number;
+        totalQuestions: number;
+        numQuestionTypes: number;
     };
     onChange: (config: Partial<ExamConfigProps["config"]>) => void;
     disabled?: boolean;
@@ -19,328 +18,140 @@ export function ExamConfig({
     onChange,
     disabled = false,
 }: ExamConfigProps) {
-    // Helper type for keys of config
-    type ConfigKeys = keyof ExamConfigProps["config"];
-    const prevExamTypeRef = useRef(config.examType);
-
-    const getIeltsDifficultyOptions = () => [
-        { value: "5.0", label: "Band 5.0 (Moderate)" },
-        { value: "6.0", label: "Band 6.0 (Competent)" },
-        { value: "7.0", label: "Band 7.0 (Good)" },
-        { value: "8.0", label: "Band 8.0 (Very Good)" },
-        { value: "9.0", label: "Band 9.0 (Expert)" },
-    ];
-
-    const getToeicDifficultyOptions = () => [
-        { value: "400", label: "400-500 (Basic)" },
-        { value: "550", label: "550-650 (Intermediate)" },
-        { value: "700", label: "700-800 (Upper Intermediate)" },
-        { value: "850", label: "850-900 (Advanced)" },
-        { value: "950", label: "950+ (Proficient)" },
-    ];
-
-    const difficultyOptions =
-        config.examType === "ielts"
-            ? getIeltsDifficultyOptions()
-            : getToeicDifficultyOptions();
-
-    // Reset difficulty value when exam type changes to ensure valid selection
+    
+    // Default values if not set
     useEffect(() => {
-        // Chỉ reset khi exam type thay đổi
-        if (prevExamTypeRef.current !== config.examType) {
-            onChange({ difficulty: "" });
-            prevExamTypeRef.current = config.examType;
-        }
-    }, [config.examType]);
+        if (!config.passageType) onChange({ passageType: 1 });
+        if (!config.totalQuestions) onChange({ totalQuestions: 14 });
+        if (!config.numQuestionTypes) onChange({ numQuestionTypes: 3 });
+    }, []);
+
+    const passageTypes = [
+        { 
+            value: 1, 
+            label: "Passage 1", 
+            description: "Descriptive/Factual texts (easiest)",
+            icon: FileText
+        },
+        { 
+            value: 2, 
+            label: "Passage 2", 
+            description: "Discursive texts (medium difficulty)",
+            icon: BookOpen
+        },
+        { 
+            value: 3, 
+            label: "Passage 3", 
+            description: "Argumentative texts (hardest)",
+            icon: Scale
+        },
+    ];
 
     return (
-        <div
-            className={`w-full transition-all duration-300 ease-in-out ${
-                disabled ? "opacity-60 cursor-not-allowed" : ""
-            }`}
-        >
+        <div className={`w-full transition-all duration-300 ease-in-out font-sans ${disabled ? "opacity-60 cursor-not-allowed" : ""}`}>
             <div className="space-y-8">
-                {/* Exam Type Section */}
+                
+                {/* Passage Type */}
                 <div>
-                    <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center">
-                        <div className="w-8 h-8 bg-gradient-to-r from-primary-500 to-purple-500 rounded-lg flex items-center justify-center mr-3">
-                            <svg
-                                className="w-4 h-4 text-white"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                                />
-                            </svg>
-                        </div>
-                        Exam Type
+                    <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+                        <Layers className="w-4 h-4" />
+                        Reading Passage Type
                     </h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        {[
-                            {
-                                id: "ielts",
-                                label: "IELTS Reading",
-                                description: "Academic reading comprehension",
-                            },
-                            {
-                                id: "toeic",
-                                label: "TOEIC Reading",
-                                description: "Business English reading",
-                            },
-                        ].map((item) => (
-                            <div key={item.id}>
-                                <input
-                                    type="radio"
-                                    id={item.id}
-                                    name="exam-type"
-                                    value={item.id}
-                                    checked={config.examType === item.id}
-                                    onChange={() =>
-                                        onChange({ examType: item.id })
-                                    }
-                                    className="sr-only peer"
-                                    disabled={disabled}
-                                />
-                                <label
-                                    htmlFor={item.id}
-                                    className={`block w-full p-6 text-center rounded-2xl border-2 transition-all duration-300 ease-in-out cursor-pointer group hover:shadow-lg transform hover:-translate-y-1
-                    ${
-                        disabled
-                            ? "cursor-not-allowed bg-gray-100 border-gray-200"
-                            : "peer-checked:border-primary-500 peer-checked:bg-gradient-to-r peer-checked:from-primary-50 peer-checked:to-purple-50 peer-checked:text-primary-700 peer-checked:shadow-xl hover:border-primary-400 border-gray-200 bg-white"
-                    }
-                    ${
-                        config.examType === item.id
-                            ? "border-primary-500 bg-gradient-to-r from-primary-50 to-purple-50 text-primary-700 shadow-xl"
-                            : "text-gray-700"
-                    }`}
+                    <div className="space-y-3">
+                        {passageTypes.map((type) => {
+                            const Icon = type.icon;
+                            const isSelected = config.passageType === type.value;
+                            
+                            return (
+                                <div key={type.value} 
+                                    onClick={() => !disabled && onChange({ passageType: type.value })}
+                                    className={`
+                                        relative flex items-center p-4 rounded-xl border border-transparent transition-all cursor-pointer group
+                                        ${disabled ? "cursor-not-allowed opacity-50" : ""}
+                                        ${isSelected 
+                                            ? "bg-red-500/10 border-red-500/50" 
+                                            : "bg-white/5 border-white/5 hover:bg-white/10 hover:border-white/10"
+                                        }
+                                    `}
                                 >
-                                    <div className="font-bold text-lg mb-2">
-                                        {item.label}
+                                    <div className={`p-3 rounded-lg mr-4 transition-colors ${isSelected ? "bg-red-500 text-white" : "bg-white/5 text-slate-400"}`}>
+                                        <Icon className="w-5 h-5" />
                                     </div>
-                                    <div
-                                        className={`text-sm ${
-                                            config.examType === item.id
-                                                ? "text-primary-600"
-                                                : "text-gray-500"
-                                        }`}
-                                    >
-                                        {item.description}
+                                    <div className="flex-1">
+                                        <div className={`font-semibold ${isSelected ? "text-white" : "text-slate-200"}`}>
+                                            {type.label}
+                                        </div>
+                                        <div className="text-xs text-slate-400">
+                                            {type.description}
+                                        </div>
                                     </div>
-                                </label>
+                                    
+                                    {isSelected && (
+                                        <div className="absolute right-4 w-2 h-2 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.6)]"></div>
+                                    )}
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    {/* Total Questions */}
+                    <div>
+                        <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+                            <HelpCircle className="w-4 h-4" />
+                            Questions Count
+                        </h3>
+                        <div className="bg-white/5 border border-white/5 rounded-xl p-4">
+                            <div className="flex justify-between items-center mb-4">
+                                <span className="text-white font-bold text-2xl">{config.totalQuestions}</span>
+                                <span className="text-xs text-slate-500">Standard: 13-14</span>
                             </div>
-                        ))}
-                    </div>
-                </div>
-
-                {/* Difficulty Level Section */}
-                <div>
-                    <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center">
-                        <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-blue-500 rounded-lg flex items-center justify-center mr-3">
-                            <svg
-                                className="w-4 h-4 text-white"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M13 10V3L4 14h7v7l9-11h-7z"
-                                />
-                            </svg>
-                        </div>
-                        Difficulty Level
-                    </h3>
-                    <div className="relative">
-                        <select
-                            id="difficulty"
-                            name="difficulty"
-                            value={config.difficulty}
-                            onChange={(e) =>
-                                onChange({ difficulty: e.target.value })
-                            }
-                            className={`block w-full pl-6 pr-12 py-4 border-2 border-gray-200 rounded-2xl leading-5 bg-white text-gray-900 placeholder-gray-400 appearance-none focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-lg font-medium transition-all duration-300 ease-in-out hover:shadow-lg
-                ${
-                    disabled
-                        ? "bg-gray-100 cursor-not-allowed"
-                        : "hover:border-primary-300"
-                }`}
-                            disabled={disabled}
-                        >
-                            <option value="" disabled className="text-gray-400">
-                                Select difficulty level...
-                            </option>
-                            {difficultyOptions.map((option) => (
-                                <option
-                                    key={option.value}
-                                    value={option.value}
-                                    className="text-gray-900"
-                                >
-                                    {option.label}
-                                </option>
-                            ))}
-                        </select>
-                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
-                            <svg
-                                className="h-6 w-6"
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 20 20"
-                                fill="currentColor"
-                                aria-hidden="true"
-                            >
-                                <path
-                                    fillRule="evenodd"
-                                    d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.25 4.25a.75.75 0 01-1.06 0L5.23 8.29a.75.75 0 01.02-1.06z"
-                                    clipRule="evenodd"
-                                />
-                            </svg>
+                            <input
+                                type="range"
+                                min="10"
+                                max="20"
+                                step="1"
+                                value={config.totalQuestions}
+                                onChange={(e) => onChange({ totalQuestions: parseInt(e.target.value) })}
+                                disabled={disabled}
+                                className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-red-500"
+                            />
+                            <div className="flex justify-between text-xs text-slate-500 mt-2 font-mono">
+                                <span>10</span>
+                                <span>20</span>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                {/* Passage/Part Selection Section */}
-                <div>
-                    <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center">
-                        <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-red-500 rounded-lg flex items-center justify-center mr-3">
-                            <svg
-                                className="w-4 h-4 text-white"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-                                />
-                            </svg>
+                    {/* Question Types */}
+                    <div>
+                        <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+                            <ListChecks className="w-4 h-4" />
+                            Variety
+                        </h3>
+                        <div className="grid grid-cols-2 gap-3 h-[calc(100%-2rem)]">
+                            {[2, 3].map((num) => {
+                                const isSelected = config.numQuestionTypes === num;
+                                return (
+                                    <div 
+                                        key={num}
+                                        onClick={() => !disabled && onChange({ numQuestionTypes: num })}
+                                        className={`
+                                            flex flex-col items-center justify-center rounded-xl border transition-all cursor-pointer
+                                            ${disabled ? "cursor-not-allowed opacity-50" : ""}
+                                            ${isSelected 
+                                                ? "bg-red-500/10 border-red-500/50 text-white" 
+                                                : "bg-white/5 border-white/5 text-slate-400 hover:bg-white/10"
+                                            }
+                                        `}
+                                    >
+                                        <span className="text-xl font-bold">{num}</span>
+                                        <span className="text-[10px] uppercase tracking-wider opacity-70">Types</span>
+                                    </div>
+                                );
+                            })}
                         </div>
-                        {config.examType === "ielts"
-                            ? "Number of Passages"
-                            : "TOEIC Part"}
-                    </h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        {config.examType === "ielts"
-                            ? // IELTS Passages
-                              ["1", "2", "3"].map((num) => (
-                                  <div key={`passage-${num}`}>
-                                      <input
-                                          type="radio"
-                                          id={`passage-${num}`}
-                                          name="passage-type"
-                                          value={num}
-                                          checked={config.passageType === num}
-                                          onChange={() =>
-                                              onChange({ passageType: num })
-                                          }
-                                          className="sr-only peer"
-                                          disabled={disabled}
-                                      />
-                                      <label
-                                          htmlFor={`passage-${num}`}
-                                          className={`block w-full p-6 text-center rounded-2xl border-2 transition-all duration-300 ease-in-out cursor-pointer group hover:shadow-lg transform hover:-translate-y-1
-                      ${
-                          disabled
-                              ? "cursor-not-allowed bg-gray-100 border-gray-200"
-                              : "peer-checked:border-primary-500 peer-checked:bg-gradient-to-r peer-checked:from-primary-500 peer-checked:to-purple-500 peer-checked:text-white peer-checked:shadow-xl hover:border-primary-400 border-gray-200 bg-white"
-                      }
-                      ${
-                          config.passageType === num
-                              ? "border-primary-500 bg-gradient-to-r from-primary-500 to-purple-500 text-white shadow-xl"
-                              : "text-gray-700"
-                      }`}
-                                      >
-                                          <div className="font-bold text-xl mb-2">
-                                              Passage {num}
-                                          </div>
-                                          <div
-                                              className={`text-sm ${
-                                                  config.passageType === num
-                                                      ? "text-primary-100"
-                                                      : "text-gray-500"
-                                              }`}
-                                          >
-                                              Reading comprehension
-                                          </div>
-                                      </label>
-                                  </div>
-                              ))
-                            : // TOEIC Parts
-                              [
-                                  {
-                                      value: "5",
-                                      label: "Part 5",
-                                      description:
-                                          "Incomplete Sentences (30 questions)",
-                                  },
-                                  {
-                                      value: "6",
-                                      label: "Part 6",
-                                      description:
-                                          "Text Completion (16 questions)",
-                                  },
-                                  {
-                                      value: "7",
-                                      label: "Part 7",
-                                      description:
-                                          "Reading Comprehension (20 questions)",
-                                  },
-                              ].map((part) => (
-                                  <div key={`part-${part.value}`}>
-                                      <input
-                                          type="radio"
-                                          id={`part-${part.value}`}
-                                          name="passage-type"
-                                          value={part.value}
-                                          checked={
-                                              config.passageType === part.value
-                                          }
-                                          onChange={() =>
-                                              onChange({
-                                                  passageType: part.value,
-                                              })
-                                          }
-                                          className="sr-only peer"
-                                          disabled={disabled}
-                                      />
-                                      <label
-                                          htmlFor={`part-${part.value}`}
-                                          className={`block w-full p-6 text-center rounded-2xl border-2 transition-all duration-300 ease-in-out cursor-pointer group hover:shadow-lg transform hover:-translate-y-1
-                      ${
-                          disabled
-                              ? "cursor-not-allowed bg-gray-100 border-gray-200"
-                              : "peer-checked:border-primary-500 peer-checked:bg-gradient-to-r peer-checked:from-primary-500 peer-checked:to-purple-500 peer-checked:text-white peer-checked:shadow-xl hover:border-primary-400 border-gray-200 bg-white"
-                      }
-                      ${
-                          config.passageType === part.value
-                              ? "border-primary-500 bg-gradient-to-r from-primary-500 to-purple-500 text-white shadow-xl"
-                              : "text-gray-700"
-                      }`}
-                                      >
-                                          <div className="font-bold text-xl mb-2">
-                                              {part.label}
-                                          </div>
-                                          <div
-                                              className={`text-sm ${
-                                                  config.passageType ===
-                                                  part.value
-                                                      ? "text-primary-100"
-                                                      : "text-gray-500"
-                                              }`}
-                                          >
-                                              {part.description}
-                                          </div>
-                                      </label>
-                                  </div>
-                              ))}
                     </div>
                 </div>
             </div>
